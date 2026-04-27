@@ -1,0 +1,25 @@
+# Never include secrets
+.env
+.env.*
+!.env.example
+
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+
+# Dev files
+.git/
+.gitignore
+*.md
+Procfile
+supabase_schema.sql
+
+# Tests
+tests/
+*.test.py
