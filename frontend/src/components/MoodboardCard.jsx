@@ -39,7 +39,7 @@ export default function MoodboardCard({ data, msgId, shared }) {
         </div>
       )}
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 3, margin: '12px 0 0' }}>
+      <div className='moodboard-grid' style={{ margin: '12px 0 0' }}>
         {tiles.map((tile, i) => {
           const hasImg = tile.url && !imgErrors[i]
           const isLarge = i === 0
@@ -82,6 +82,13 @@ export default function MoodboardCard({ data, msgId, shared }) {
         )}
 
         {data?.advice && <p style={{ fontSize:12, color:'var(--text-3)', fontStyle:'italic', lineHeight:1.6, borderTop:'0.5px solid var(--border)', paddingTop:10 }}>{data.advice}</p>}
+
+        {data?.profileMatch && (
+          <div style={{ display:'flex', alignItems:'flex-start', gap:8, padding:'8px 11px', background:'var(--rose-bg)', borderRadius:'var(--r-sm)', border:'0.5px solid var(--rose-lt)' }}>
+            <span style={{ fontSize:10, flexShrink:0, marginTop:1 }}>✦</span>
+            <div style={{ fontSize:11, color:'var(--rose-dk)', lineHeight:1.5, fontStyle:'italic' }}>{data.profileMatch}</div>
+          </div>
+        )}
 
         {!shared && (
           <div style={{ display:'flex', gap:8, alignItems:'center', borderTop:'0.5px solid var(--border)', paddingTop:10 }}>

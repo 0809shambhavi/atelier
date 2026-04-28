@@ -46,7 +46,7 @@ export default function LooksCard({ data, msgId, shared }) {
       )}
 
       {lookImages.length > 0 && (
-        <div style={{ display:'grid', gridTemplateColumns:'2fr 1fr 1fr', gap:3 }}>
+        <div className='looks-image-strip'>
           {lookImages.slice(0,3).map((img,i) => {
             const hasImg = img.url && !imgErrors[`look-${i}`]
             return (
@@ -90,7 +90,7 @@ export default function LooksCard({ data, msgId, shared }) {
           </div>
         )}
 
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:6 }}>
+        <div className='items-grid'>
           {items.map((item,i) => (
             <div key={i}
               style={{ display:'flex', alignItems:'flex-start', gap:9, padding:'10px 12px', background: item.owned?'var(--green-bg)':'var(--bg)', border:`0.5px solid ${item.owned?'var(--green-lt)':'var(--border)'}`, borderRadius:'var(--r-sm)', transition:'border-color .12s', position:'relative' }}
@@ -109,10 +109,17 @@ export default function LooksCard({ data, msgId, shared }) {
 
         {data?.stylingNote && <p style={{ fontSize:11, color:'var(--text-3)', fontStyle:'italic', lineHeight:1.55 }}>{data.stylingNote}</p>}
 
+        {data?.profileMatch && (
+          <div style={{ display:'flex', alignItems:'flex-start', gap:8, padding:'8px 11px', background:'var(--rose-bg)', borderRadius:'var(--r-sm)', border:'0.5px solid var(--rose-lt)' }}>
+            <span style={{ fontSize:10, flexShrink:0, marginTop:1 }}>✦</span>
+            <div style={{ fontSize:11, color:'var(--rose-dk)', lineHeight:1.5, fontStyle:'italic' }}>{data.profileMatch}</div>
+          </div>
+        )}
+
         {shopCards.length > 0 && (
           <div style={{ borderTop:'0.5px solid var(--border)', paddingTop:11, display:'flex', flexDirection:'column', gap:7 }}>
             <span style={{ fontSize:9, fontWeight:500, letterSpacing:'0.1em', textTransform:'uppercase', color:'var(--text-3)' }}>Shop the look</span>
-            <div style={{ display:'flex', gap:7 }}>
+            <div className='shop-cards'>
               {shopCards.map((card,i) => (
                 <a key={i} href={card.link||'#'} target="_blank" rel="noopener noreferrer"
                   style={{ flex:1, border:'0.5px solid var(--border-md)', borderRadius:'var(--r-sm)', padding:'10px 12px', background:'var(--bg)', cursor:'pointer', transition:'all .15s', textDecoration:'none', display:'block' }}

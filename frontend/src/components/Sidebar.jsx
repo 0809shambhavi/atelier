@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import StyleSync from './StyleSync.jsx'
 
 const BODY_TYPES = ['Pear', 'Apple', 'Hourglass', 'Rectangle', 'Petite', 'Tall']
 const SKIN_TONES = ['Fair', 'Light', 'Medium', 'Olive', 'Tan', 'Deep']
@@ -11,13 +12,47 @@ const FIELDS = [
   { key: 'wardrobe', label: 'My wardrobe',      placeholder: 'e.g. white linen shirt, black trousers' },
 ]
 
-export default function Sidebar({ ctx, update, chips, onChip, onViewSaves }) {
+export default function Sidebar({ className, ctx, update, chips, onChip, onViewSaves, sessionId, onProfileChange, onClose }) {
   const [open, setOpen] = useState(null)
 
   return (
-    <aside style={{ width: 224, flexShrink: 0, borderRight: '0.5px solid var(--border)', background: 'var(--surface)', display: 'flex', flexDirection: 'column', padding: '22px 14px', gap: 22, overflowY: 'auto' }}>
-      <div style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 21, color: 'var(--rose)', padding: '0 4px' }}>✦ Atelier</div>
+    <aside
+      className={`sidebar ${className || ''}`}
+      style={{
+        width: 'var(--sidebar-w, 224px)',
+        flexShrink: 0,
+        borderRight: '0.5px solid var(--border)',
+        background: 'var(--surface)',
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '18px 12px',
+        gap: 18,
+        overflowY: 'auto',
+        overflowX: 'hidden',
+      }}
+    >
+      {/* Header row with close button on mobile */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 20, color: 'var(--rose)', padding: '0 4px' }}>✦ Atelier</div>
+        <button
+          onClick={onClose}
+          className="sidebar-close-btn"
+          aria-label="Close menu"
+          style={{ display: 'none', width: 28, height: 28, borderRadius: 'var(--r-sm)', background: 'var(--surface2)', border: '0.5px solid var(--border-md)', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', flexShrink: 0 }}
+        >
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M1 1l10 10M11 1L1 11" stroke="var(--text-2)" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+        </button>
+      </div>
 
+      {/* Style Sync */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+        <div style={{ fontSize: 9, fontWeight: 500, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-3)', padding: '0 4px', marginBottom: 2 }}>Your style</div>
+        <StyleSync sessionId={sessionId} onProfileChange={onProfileChange} />
+      </div>
+
+      {/* Context fields */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
         <div style={{ fontSize: 9, fontWeight: 500, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-3)', padding: '0 4px', marginBottom: 2 }}>Context</div>
 
@@ -86,6 +121,7 @@ export default function Sidebar({ ctx, update, chips, onChip, onViewSaves }) {
         </div>
       </div>
 
+      {/* Quick starts */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <div style={{ fontSize: 9, fontWeight: 500, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-3)', padding: '0 4px', marginBottom: 4 }}>Quick starts</div>
         {chips.map(chip => (
@@ -97,6 +133,7 @@ export default function Sidebar({ ctx, update, chips, onChip, onViewSaves }) {
         ))}
       </div>
 
+      {/* Footer */}
       <div style={{ marginTop: 'auto', borderTop: '0.5px solid var(--border)', paddingTop: 12 }}>
         <button onClick={onViewSaves}
           style={{ textAlign: 'left', padding: '7px 10px', borderRadius: 'var(--r-sm)', fontSize: 12, color: 'var(--text-2)', background: 'transparent', border: 'none', cursor: 'pointer', transition: 'all .12s', width: '100%' }}
