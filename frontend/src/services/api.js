@@ -71,3 +71,29 @@ export async function checkHealth() {
     return res.json()
   } catch { return null }
 }
+
+export async function syncWishlist(url, sessionId) {
+  const res = await fetch(`${BASE}/style/wishlist`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ url, session_id: sessionId })
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}))
+    throw new Error(err?.detail || `HTTP ${res.status}`)
+  }
+  return res.json()
+}
+
+export async function getStyleProfile(sessionId) {
+  try {
+    const res = await fetch(`${BASE}/style/profile/${sessionId}`)
+    const data = await res.json()
+    return data.profile || null
+  } catch { return null }
+}
+
+export async function deleteStyleProfile(sessionId) {
+  const res = await fetch(`${BASE}/style/profile/${sessionId}`, { method: 'DELETE' })
+  return res.json()
+}
